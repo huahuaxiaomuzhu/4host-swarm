@@ -24,23 +24,22 @@ services:
     container_name: orderer.example.com
     networks:
       - byfn
-
-  orderer5.example.com:
+  orderer4.example.com:
     extends:
       file: base/peer-base.yaml
       service: orderer-base
     environment:
-      - ORDERER_GENERAL_LISTENPORT=11050
-    container_name: orderer5.example.com
+      - ORDERER_GENERAL_LISTENPORT=10050
+    container_name: orderer4.example.com
     networks:
     - byfn
     volumes:
         - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-        - ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/msp:/var/hyperledger/orderer/msp
-        - ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/:/var/hyperledger/orderer/tls
-        - orderer5.example.com:/var/hyperledger/production/orderer
+        - ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/msp:/var/hyperledger/orderer/msp
+        - ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/:/var/hyperledger/orderer/tls
+        - orderer4.example.com:/var/hyperledger/production/orderer
     ports:
-    - 11050:11050
+    - 10050:10050
 
   peer0.org1.example.com:
     container_name: peer0.org1.example.com
@@ -79,6 +78,7 @@ services:
         - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
     depends_on:
       - orderer.example.com
+      - orderer4.example.com
       - peer0.org1.example.com
     networks:
       - byfn
